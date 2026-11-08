@@ -28,24 +28,7 @@
             position: relative;
         }
 
-        /* ===== HEADER / LOGO ===== */
-        .header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px 0;
-            z-index: 10;
-        }
-
-        .header-logo {
-            max-width: 180px;
-            height: auto;
-        }
-
-        /* ===== MAIN CONTENT — центрирование ===== */
+        /* ===== MAIN CONTENT — пустой ===== */
         .content {
             flex: 1;
             display: flex;
@@ -64,31 +47,24 @@
             display: block;
         }
 
-        .tab-content h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #e0e0e0;
-        }
-
-        .tab-content p {
-            font-size: 15px;
-            color: #888;
-        }
-
-        /* ===== BOTTOM NAVIGATION — компактная ===== */
+        /* ===== BOTTOM NAVIGATION — Liquid Glass ===== */
         .bottom-nav {
             position: absolute;
-            bottom: 16px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 210px;
-            height: 52px;
-            background: #b8b8b8;
-            border-radius: 26px;
+            width: 180px;
+            height: 44px;
+            background: rgba(180, 180, 180, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 22px;
             display: flex;
-            padding: 4px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            padding: 3px;
+            box-shadow: 
+                0 2px 12px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 10;
         }
 
@@ -98,18 +74,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 22px;
+            border-radius: 19px;
             cursor: pointer;
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
-            padding: 6px 0;
+            padding: 4px 0;
         }
 
         .nav-item .nav-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 2px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 1px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -122,21 +98,21 @@
         }
 
         .nav-item .nav-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        /* Active — синий фон */
+        /* Active — серый фон, синяя иконка, синий текст */
         .nav-item.active {
-            background: #2563eb;
+            background: rgba(160, 160, 160, 0.8);
         }
 
         .nav-item.active .nav-label {
-            color: #ffffff;
+            color: #2563eb;
         }
 
-        /* Inactive — без фона, чёрный текст */
+        /* Inactive — прозрачный, черная иконка, черный текст */
         .nav-item:not(.active) .nav-label {
             color: #1a1a1a;
         }
@@ -145,17 +121,17 @@
             transform: scale(0.95);
         }
 
-        /* Rainbow border */
+        /* Rainbow border on interaction */
         .nav-item.interacting {
             border: 2px solid transparent;
-            background-image: linear-gradient(#b8b8b8, #b8b8b8),
+            background-image: linear-gradient(rgba(160,160,160,0.9), rgba(160,160,160,0.9)),
                               linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
             background-origin: border-box;
             background-clip: padding-box, border-box;
         }
 
         .nav-item.active.interacting {
-            background-image: linear-gradient(#2563eb, #2563eb),
+            background-image: linear-gradient(rgba(160,160,160,0.9), rgba(160,160,160,0.9)),
                               linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
         }
 
@@ -171,24 +147,13 @@
 </head>
 <body>
 
-    <!-- HEADER -->
-    <div class="header">
-        <img src="bcblogotext.PNG" alt="Logo" class="header-logo">
-    </div>
-
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT — пустой -->
     <div class="content">
-        <div class="tab-content active" id="tab-play">
-            <h2>🎮 Играть</h2>
-            <p>Добро пожаловать в игру!</p>
-        </div>
-        <div class="tab-content" id="tab-profile">
-            <h2>👤 Профиль</h2>
-            <p>Здесь будет ваш профиль</p>
-        </div>
+        <div class="tab-content active" id="tab-play"></div>
+        <div class="tab-content" id="tab-profile"></div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVIGATION — Liquid Glass -->
     <div class="bottom-nav">
         <div class="nav-item active" data-tab="play" id="nav-play">
             <div class="nav-icon">
