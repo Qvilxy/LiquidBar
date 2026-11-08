@@ -35,7 +35,184 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 20px;<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <title>Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111111;
+      --blue: #0866ff;
+      --nav-width: 204px;
+      --nav-height: 68px;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      width: 100%; height: 100%; margin: 0; overflow: hidden;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    }
+    body {
+      min-height: 100dvh;
+      color: #fff;
+      background:
+        radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.025), transparent 58%),
+        linear-gradient(180deg, #111 0%, #121212 100%);
+    }
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      min-height: 100%;
+      overflow: hidden;
+      padding:
+        env(safe-area-inset-top, 0px)
+        env(safe-area-inset-right, 0px)
+        calc(env(safe-area-inset-bottom, 0px) + 12px)
+        env(safe-area-inset-left, 0px);
+    }
+    .page {
+      position: absolute; inset: 0;
+      background: transparent;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+    }
+    .page.active { opacity: 1; pointer-events: auto; }
+    .bottom-nav {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+      transform: translateX(-50%);
+      width: var(--nav-width);
+      height: var(--nav-height);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 4px;
+      border-radius: 999px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.48), rgba(255,255,255,.27)),
+        rgba(180,180,180,.28);
+      border: 1px solid rgba(255,255,255,.36);
+      box-shadow:
+        0 8px 28px rgba(0,0,0,.38),
+        inset 0 1px 1px rgba(255,255,255,.52),
+        inset 0 -1px 1px rgba(0,0,0,.12);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      backdrop-filter: blur(28px) saturate(160%);
+      isolation: isolate;
+    }
+    .bottom-nav::before {
+      content: "";
+      position: absolute; inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.025));
+      pointer-events: none;
+      z-index: -1;
+    }
+    .nav-item {
+      appearance: none; border: 0; outline: 0;
+      min-width: 0; border-radius: 999px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1px;
+      padding: 3px 0 2px;
+      color: #050505;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .12s ease;
+    }
+    .nav-item:active { transform: scale(.97); }
+    .nav-item.active {
+      background: rgba(105,105,105,.40);
+      color: var(--blue);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.13);
+    }
+    .nav-item img {
+      display: block;
+      width: 29px; height: 29px;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+    }
+    .nav-item span {
+      font-size: 11px;
+      line-height: 13px;
+      font-weight: 500;
+      letter-spacing: -.15px;
+    }
+    @media (max-height: 500px) {
+      .bottom-nav { bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <!-- Обе вкладки намеренно пустые: только общий тёмный фон. -->
+    <section class="page active" id="page-play" aria-label="Играть"></section>
+    <section class="page" id="page-profile" aria-label="Профиль"></section>
+
+    <nav class="bottom-nav" aria-label="Навигация">
+      <button class="nav-item active" type="button" data-tab="play" aria-selected="true">
+        <img src="./assets/icon_chip_blue.png" data-icon="chip" alt="" />
+        <span>Играть</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="profile" aria-selected="false">
+        <img src="./assets/icon_profile_black.png" data-icon="profile" alt="" />
+        <span>Профиль</span>
+      </button>
+    </nav>
+  </main>
+
+  <script>
+    (() => {
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+        tg.setHeaderColor?.("#111111");
+        tg.setBackgroundColor?.("#111111");
+      }
+
+      const tabs = [...document.querySelectorAll(".nav-item")];
+      const pages = {
+        play: document.getElementById("page-play"),
+        profile: document.getElementById("page-profile")
+      };
+
+      function selectTab(name) {
+        tabs.forEach(button => {
+          const selected = button.dataset.tab === name;
+          button.classList.toggle("active", selected);
+          button.setAttribute("aria-selected", String(selected));
+
+          const icon = button.querySelector("img");
+          const type = icon.dataset.icon;
+          icon.src = `./assets/icon_${type}_${selected ? "blue" : "black"}.png`;
+        });
+
+        Object.entries(pages).forEach(([key, page]) => {
+          page.classList.toggle("active", key === name);
+        });
+
+        try { tg?.HapticFeedback?.selectionChanged(); } catch (_) {}
+      }
+
+      tabs.forEach(button => {
+        button.addEventListener("click", () => selectTab(button.dataset.tab));
+      });
+    })();
+  </script>
+</body>
+</html>
+
         }
 
         .tab-content {
