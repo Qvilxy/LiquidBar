@@ -57,19 +57,11 @@
       position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px;
       width: calc(50% - 4px); border-radius: 999px;
       background: #080809;
-      box-shadow: 0 4px 13px rgba(0,0,0,.38), inset 0 1px 1px rgba(255,255,255,.045);
+      box-shadow: 0 4px 13px rgba(0,0,0,.38);
       transform: translateX(calc(var(--active-index) * 100%));
       transition: transform .58s cubic-bezier(.2, 1.35, .35, 1);
     }
-    .nav-indicator::after {
-      content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: conic-gradient(from 20deg, rgba(80,180,255,.48), transparent 20%, rgba(255,90,120,.35) 43%,
-        transparent 61%, rgba(100,210,255,.35) 78%, transparent);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      opacity: .72; pointer-events: none;
-    }
-    .bottom-nav.switching .nav-indicator {
+        .bottom-nav.switching .nav-indicator {
       animation: indicator-bloom .58s ease both;
     }
     @keyframes indicator-bloom {
@@ -99,11 +91,13 @@
       55% { transform: rotate(250deg) scale(1.2); filter: brightness(1.5) drop-shadow(0 0 8px rgba(8,120,255,.75)); }
       100% { transform: rotate(360deg) scale(1); filter: brightness(1.08) drop-shadow(0 0 3px rgba(8,120,255,.3)); }
     }
-    .nav-item.profile-pop .icon-profile { animation: profile-pop .48s cubic-bezier(.2,1.4,.35,1) both; }
+    .nav-item.profile-pop .icon-profile { animation: profile-pop .42s cubic-bezier(.22,.8,.3,1) both; }
     @keyframes profile-pop {
-      0% { transform: scale(.72) rotate(-18deg); filter: brightness(.8); }
-      55% { transform: scale(1.22) rotate(9deg); filter: brightness(1.45) drop-shadow(0 0 7px rgba(8,120,255,.45)); }
-      100% { transform: scale(1) rotate(0); filter: none; }
+      0% { transform: translateY(0) rotate(0); }
+      38% { transform: translateY(-6px) rotate(-5deg); }
+      68% { transform: translateY(1px) rotate(2deg); }
+      84% { transform: translateY(-2px) rotate(-1deg); }
+      100% { transform: translateY(0) rotate(0); }
     }
     @media (max-height: 500px) { .bottom-nav { bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); } }
     @media (prefers-reduced-motion: reduce) {
