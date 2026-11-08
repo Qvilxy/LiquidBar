@@ -40,7 +40,7 @@
     .bottom-nav {
       --active-index: 0;
       position: absolute; z-index: 5; left: 50%;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
       transform: translateX(-50%);
       width: var(--nav-width); height: var(--nav-height);
       display: grid; grid-template-columns: 1fr 1fr; padding: 4px;
@@ -87,17 +87,19 @@
     .nav-item .icon-profile { width: 26px; height: 27px; }
     .nav-item.spin .icon-chip { animation: chip-spin .43s cubic-bezier(.22,.75,.25,1) both; }
     @keyframes chip-spin {
-      0% { transform: rotate(0deg) scale(.78); filter: brightness(.8); }
-      55% { transform: rotate(250deg) scale(1.2); filter: brightness(1.5) drop-shadow(0 0 8px rgba(8,120,255,.75)); }
-      100% { transform: rotate(360deg) scale(1); filter: brightness(1.08) drop-shadow(0 0 3px rgba(8,120,255,.3)); }
+      0% { transform: rotate(0deg) scale(.92); }
+      55% { transform: rotate(250deg) scale(1.08); }
+      100% { transform: rotate(360deg) scale(1); }
     }
-    .nav-item.profile-pop .icon-profile { animation: profile-pop .42s cubic-bezier(.22,.8,.3,1) both; }
+    .nav-item.profile-pop .icon-profile { animation: profile-pop .32s ease-in-out both; }
     @keyframes profile-pop {
-      0% { transform: translateY(0) rotate(0); }
-      38% { transform: translateY(-6px) rotate(-5deg); }
-      68% { transform: translateY(1px) rotate(2deg); }
-      84% { transform: translateY(-2px) rotate(-1deg); }
-      100% { transform: translateY(0) rotate(0); }
+      0% { transform: translateX(0) rotate(0); }
+      18% { transform: translateX(-2px) rotate(-5deg); }
+      36% { transform: translateX(2px) rotate(5deg); }
+      54% { transform: translateX(-2px) rotate(-4deg); }
+      72% { transform: translateX(2px) rotate(4deg); }
+      88% { transform: translateX(-1px) rotate(-2deg); }
+      100% { transform: translateX(0) rotate(0); }
     }
     @media (max-height: 500px) { .bottom-nav { bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); } }
     @media (prefers-reduced-motion: reduce) {
