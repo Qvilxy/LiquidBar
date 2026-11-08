@@ -12,32 +12,40 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #1a1a1a;
-            background: radial-gradient(ellipse at center, #2a2a2a 0%, #111111 70%, #0a0a0a 100%);
-            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #2c2c2c 0%, #1a1a1a 50%, #0d0d0d 100%);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             color: #fff;
+            position: relative;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER / LOGO ===== */
         .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 30px 20px 20px;
-            width: 100%;
+            padding: 40px 20px 0;
+            z-index: 10;
         }
 
         .header-logo {
-            max-width: 220px;
+            max-width: 180px;
             height: auto;
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* ===== MAIN CONTENT — центрирование ===== */
         .content {
             flex: 1;
             display: flex;
@@ -49,7 +57,6 @@
 
         .tab-content {
             display: none;
-            width: 100%;
             text-align: center;
         }
 
@@ -58,8 +65,9 @@
         }
 
         .tab-content h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: #e0e0e0;
         }
 
@@ -68,22 +76,20 @@
             color: #888;
         }
 
-        /* ===== BOTTOM NAVIGATION ===== */
+        /* ===== BOTTOM NAVIGATION — компактная ===== */
         .bottom-nav {
-            position: fixed;
-            bottom: 20px;
+            position: absolute;
+            bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 360px;
-            background: #c0c0c0;
-            border-radius: 50px;
+            width: 210px;
+            height: 52px;
+            background: #b8b8b8;
+            border-radius: 26px;
             display: flex;
-            padding: 6px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: rgba(192, 192, 192, 0.85);
+            padding: 4px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            z-index: 10;
         }
 
         .nav-item {
@@ -92,20 +98,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 12px 10px;
-            border-radius: 44px;
+            border-radius: 22px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
-            position: relative;
+            padding: 6px 0;
         }
 
         .nav-item .nav-icon {
-            width: 36px;
-            height: 36px;
-            margin-bottom: 4px;
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -115,39 +119,36 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: opacity 0.3s ease;
         }
 
         .nav-item .nav-label {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
-        /* Active state — синий фон, белый текст */
+        /* Active — синий фон */
         .nav-item.active {
             background: #2563eb;
-            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
         }
 
         .nav-item.active .nav-label {
             color: #ffffff;
         }
 
-        /* Inactive state — серый фон, чёрный текст */
+        /* Inactive — без фона, чёрный текст */
         .nav-item:not(.active) .nav-label {
             color: #1a1a1a;
         }
 
-        /* Hover / tap effect */
         .nav-item:active {
             transform: scale(0.95);
         }
 
-        /* Rainbow border on interaction */
+        /* Rainbow border */
         .nav-item.interacting {
             border: 2px solid transparent;
-            background-image: linear-gradient(rgba(192,192,192,0.95), rgba(192,192,192,0.95)),
+            background-image: linear-gradient(#b8b8b8, #b8b8b8),
                               linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
             background-origin: border-box;
             background-clip: padding-box, border-box;
@@ -158,7 +159,6 @@
                               linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
         }
 
-        /* ===== ANIMATIONS ===== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -178,40 +178,30 @@
 
     <!-- MAIN CONTENT -->
     <div class="content">
-
-        <!-- Tab: Играть -->
         <div class="tab-content active" id="tab-play">
             <h2>🎮 Играть</h2>
             <p>Добро пожаловать в игру!</p>
         </div>
-
-        <!-- Tab: Профиль -->
         <div class="tab-content" id="tab-profile">
             <h2>👤 Профиль</h2>
             <p>Здесь будет ваш профиль</p>
         </div>
-
     </div>
 
     <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
-
-        <!-- Играть -->
         <div class="nav-item active" data-tab="play" id="nav-play">
             <div class="nav-icon">
-                <img src="icon_chip_blue.png" alt="Играть" class="icon-chip">
+                <img src="icon_chip_blue.png" alt="Играть">
             </div>
             <span class="nav-label">Играть</span>
         </div>
-
-        <!-- Профиль -->
         <div class="nav-item" data-tab="profile" id="nav-profile">
             <div class="nav-icon">
-                <img src="icon_profile_black.png" alt="Профиль" class="icon-profile">
+                <img src="icon_profile_black.png" alt="Профиль">
             </div>
             <span class="nav-label">Профиль</span>
         </div>
-
     </div>
 
     <script>
@@ -224,7 +214,6 @@
         const navItems = document.querySelectorAll('.nav-item');
         const tabContents = document.querySelectorAll('.tab-content');
 
-        // Icon sources
         const icons = {
             play:    { active: 'icon_chip_blue.png',   inactive: 'icon_chip_black.png'   },
             profile: { active: 'icon_profile_blue.png', inactive: 'icon_profile_black.png' }
@@ -234,7 +223,6 @@
             item.addEventListener('click', () => {
                 const tabName = item.getAttribute('data-tab');
 
-                // Сброс всех активных
                 navItems.forEach(n => {
                     n.classList.remove('active');
                     const tab = n.getAttribute('data-tab');
@@ -242,18 +230,15 @@
                 });
                 tabContents.forEach(t => t.classList.remove('active'));
 
-                // Установка активной вкладки
                 item.classList.add('active');
                 item.querySelector('img').src = icons[tabName].active;
                 document.getElementById('tab-' + tabName).classList.add('active');
 
-                // Haptic feedback
                 if (tg?.HapticFeedback) {
                     tg.HapticFeedback.selectionChanged();
                 }
             });
 
-            // Rainbow border on touch
             item.addEventListener('touchstart', () => item.classList.add('interacting'));
             item.addEventListener('touchend',   () => setTimeout(() => item.classList.remove('interacting'), 300));
             item.addEventListener('mousedown',  () => item.classList.add('interacting'));
