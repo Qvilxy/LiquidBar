@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#111111" />
+  <meta name="theme-color" content="#101012" />
   <title>Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #111111;
-      --blue: #0866ff;
+      --bg: #101012;
+      --blue: #0878ff;
       --nav-width: 204px;
       --nav-height: 68px;
     }
@@ -21,156 +21,154 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
     }
     body {
-      min-height: 100dvh;
-      color: #fff;
-      background:
-        radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.025), transparent 58%),
-        linear-gradient(180deg, #111 0%, #121212 100%);
+      min-height: 100dvh; color: #fff;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.025), transparent 58%),
+                  linear-gradient(180deg, #101012 0%, #141416 100%);
     }
     #app {
-      position: relative;
-      width: 100%;
-      height: 100dvh;
-      min-height: 100%;
+      position: relative; width: 100%; height: 100dvh; min-height: 100%;
       overflow: hidden;
-      padding:
-        env(safe-area-inset-top, 0px)
-        env(safe-area-inset-right, 0px)
-        calc(env(safe-area-inset-bottom, 0px) + 12px)
-        env(safe-area-inset-left, 0px);
+      padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+        calc(env(safe-area-inset-bottom, 0px) + 12px) env(safe-area-inset-left, 0px);
     }
     .page {
-      position: absolute; inset: 0;
-      background: transparent;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease;
+      position: absolute; inset: 0; background: transparent;
+      opacity: 0; pointer-events: none; transition: opacity .2s ease;
     }
     .page.active { opacity: 1; pointer-events: auto; }
+
     .bottom-nav {
-      position: absolute;
-      z-index: 5;
-      left: 50%;
+      --active-index: 0;
+      position: absolute; z-index: 5; left: 50%;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
       transform: translateX(-50%);
-      width: var(--nav-width);
-      height: var(--nav-height);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding: 4px;
+      width: var(--nav-width); height: var(--nav-height);
+      display: grid; grid-template-columns: 1fr 1fr; padding: 4px;
       border-radius: 999px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.48), rgba(255,255,255,.27)),
-        rgba(180,180,180,.28);
-      border: 1px solid rgba(255,255,255,.36);
-      box-shadow:
-        0 8px 28px rgba(0,0,0,.38),
-        inset 0 1px 1px rgba(255,255,255,.52),
-        inset 0 -1px 1px rgba(0,0,0,.12);
-      -webkit-backdrop-filter: blur(28px) saturate(160%);
-      backdrop-filter: blur(28px) saturate(160%);
+      background: linear-gradient(150deg, rgba(55,55,59,.94), rgba(30,30,33,.96));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 9px 30px rgba(0,0,0,.48), inset 0 1px 1px rgba(255,255,255,.09),
+                  inset 0 -1px 1px rgba(0,0,0,.45);
+      -webkit-backdrop-filter: blur(28px) saturate(135%);
+      backdrop-filter: blur(28px) saturate(135%);
       isolation: isolate;
     }
-    .bottom-nav::before {
-      content: "";
-      position: absolute; inset: 1px;
-      border-radius: inherit;
-      background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.025));
-      pointer-events: none;
-      z-index: -1;
+    .nav-indicator {
+      position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px;
+      width: calc(50% - 4px); border-radius: 999px;
+      background: #080809;
+      box-shadow: 0 4px 13px rgba(0,0,0,.38), inset 0 1px 1px rgba(255,255,255,.045);
+      transform: translateX(calc(var(--active-index) * 100%));
+      transition: transform .58s cubic-bezier(.2, 1.35, .35, 1);
+    }
+    .nav-indicator::after {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: conic-gradient(from 20deg, rgba(80,180,255,.48), transparent 20%, rgba(255,90,120,.35) 43%,
+        transparent 61%, rgba(100,210,255,.35) 78%, transparent);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: .72; pointer-events: none;
+    }
+    .bottom-nav.switching .nav-indicator {
+      animation: indicator-bloom .58s ease both;
+    }
+    @keyframes indicator-bloom {
+      0% { filter: brightness(1); }
+      38% { filter: brightness(1.55); }
+      100% { filter: brightness(1); }
     }
     .nav-item {
-      appearance: none; border: 0; outline: 0;
-      min-width: 0; border-radius: 999px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1px;
-      padding: 3px 0 2px;
-      color: #050505;
-      background: transparent;
-      font: inherit;
-      cursor: pointer;
-      transition: background .2s ease, color .2s ease, transform .12s ease;
+      appearance: none; position: relative; z-index: 1; border: 0; outline: 0;
+      min-width: 0; border-radius: 999px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1px; padding: 3px 0 2px;
+      color: #f5f5f7; background: transparent; font: inherit; cursor: pointer;
+      transition: color .2s ease, transform .16s ease;
     }
-    .nav-item:active { transform: scale(.97); }
-    .nav-item.active {
-      background: rgba(105,105,105,.40);
-      color: var(--blue);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,.13);
-    }
+    .nav-item:active { transform: scale(.94); }
+    .nav-item.active { color: #fff; }
     .nav-item img {
-      display: block;
-      width: 29px; height: 29px;
-      object-fit: contain;
-      user-select: none;
-      pointer-events: none;
+      display: block; width: 29px; height: 29px; object-fit: contain;
+      user-select: none; pointer-events: none; transform-origin: 50% 50%;
     }
-    .nav-item span {
-      font-size: 11px;
-      line-height: 13px;
-      font-weight: 500;
-      letter-spacing: -.15px;
+    .nav-item span { font-size: 11px; line-height: 13px; font-weight: 600; letter-spacing: -.15px; }
+    .nav-item .icon-chip { width: 31px; height: 31px; }
+    .nav-item .icon-profile { width: 29px; height: 29px; }
+    .nav-item.spin .icon-chip { animation: chip-spin .43s cubic-bezier(.22,.75,.25,1) both; }
+    @keyframes chip-spin {
+      0% { transform: rotate(0deg) scale(.78); filter: brightness(.8); }
+      55% { transform: rotate(250deg) scale(1.2); filter: brightness(1.5) drop-shadow(0 0 8px rgba(8,120,255,.75)); }
+      100% { transform: rotate(360deg) scale(1); filter: brightness(1.08) drop-shadow(0 0 3px rgba(8,120,255,.3)); }
     }
-    @media (max-height: 500px) {
-      .bottom-nav { bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); }
+    .nav-item.profile-pop .icon-profile { animation: profile-pop .48s cubic-bezier(.2,1.4,.35,1) both; }
+    @keyframes profile-pop {
+      0% { transform: scale(.72) rotate(-18deg); filter: brightness(.8); }
+      55% { transform: scale(1.22) rotate(9deg); filter: brightness(1.45) drop-shadow(0 0 7px rgba(8,120,255,.45)); }
+      100% { transform: scale(1) rotate(0); filter: none; }
+    }
+    @media (max-height: 500px) { .bottom-nav { bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
   <main id="app">
-    <!-- Обе вкладки намеренно пустые: только общий тёмный фон. -->
     <section class="page active" id="page-play" aria-label="Играть"></section>
     <section class="page" id="page-profile" aria-label="Профиль"></section>
-
     <nav class="bottom-nav" aria-label="Навигация">
+      <span class="nav-indicator" aria-hidden="true"></span>
       <button class="nav-item active" type="button" data-tab="play" aria-selected="true">
-        <img src="./assets/icon_chip_blue.png" data-icon="chip" alt="" />
+        <img class="icon-chip" src="./assets/icon_chip_blue.png" data-icon="chip" alt="" />
         <span>Играть</span>
       </button>
       <button class="nav-item" type="button" data-tab="profile" aria-selected="false">
-        <img src="./assets/icon_profile_black.png" data-icon="profile" alt="" />
+        <img class="icon-profile" src="./assets/icon_profile_black.png" data-icon="profile" alt="" />
         <span>Профиль</span>
       </button>
     </nav>
   </main>
-
   <script>
     (() => {
       const tg = window.Telegram?.WebApp;
       if (tg) {
-        tg.ready();
-        tg.expand();
-        tg.setHeaderColor?.("#111111");
-        tg.setBackgroundColor?.("#111111");
+        tg.ready(); tg.expand();
+        tg.setHeaderColor?.("#101012");
+        tg.setBackgroundColor?.("#101012");
       }
-
+      const nav = document.querySelector(".bottom-nav");
       const tabs = [...document.querySelectorAll(".nav-item")];
       const pages = {
         play: document.getElementById("page-play"),
         profile: document.getElementById("page-profile")
       };
-
+      let currentTab = "play";
+      function replayClass(element, className) {
+        element.classList.remove(className);
+        void element.offsetWidth;
+        element.classList.add(className);
+        element.addEventListener("animationend", () => element.classList.remove(className), { once: true });
+      }
       function selectTab(name) {
+        const changed = name !== currentTab;
+        currentTab = name;
+        nav.style.setProperty("--active-index", name === "play" ? "0" : "1");
+        nav.classList.remove("switching");
+        void nav.offsetWidth;
+        nav.classList.add("switching");
+        nav.addEventListener("animationend", () => nav.classList.remove("switching"), { once: true });
+
         tabs.forEach(button => {
           const selected = button.dataset.tab === name;
           button.classList.toggle("active", selected);
           button.setAttribute("aria-selected", String(selected));
-
           const icon = button.querySelector("img");
           const type = icon.dataset.icon;
           icon.src = `./assets/icon_${type}_${selected ? "blue" : "black"}.png`;
+          if (selected && changed) replayClass(button, type === "chip" ? "spin" : "profile-pop");
         });
-
-        Object.entries(pages).forEach(([key, page]) => {
-          page.classList.toggle("active", key === name);
-        });
-
-        try { tg?.HapticFeedback?.selectionChanged(); } catch (_) {}
+        Object.entries(pages).forEach(([key, page]) => page.classList.toggle("active", key === name));
       }
-
-      tabs.forEach(button => {
-        button.addEventListener("click", () => selectTab(button.dataset.tab));
-      });
+      tabs.forEach(button => button.addEventListener("click", () => selectTab(button.dataset.tab)));
     })();
   </script>
 </body>
