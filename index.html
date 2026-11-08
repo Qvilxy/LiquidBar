@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Big Cherry Boobs</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            background: radial-gradient(ellipse at center, #2a2a2a 0%, #111111 70%, #0a0a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px 20px;
+            width: 100%;
+        }
+
+        .header-logo {
+            max-width: 220px;
+            height: auto;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .tab-content p {
+            font-size: 15px;
+            color: #888;
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background: #c0c0c0;
+            border-radius: 50px;
+            display: flex;
+            padding: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(192, 192, 192, 0.85);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 10px;
+            border-radius: 44px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+        }
+
+        .nav-item .nav-icon {
+            width: 36px;
+            height: 36px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-item .nav-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-item .nav-label {
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        /* Active state — синий фон, белый текст */
+        .nav-item.active {
+            background: #2563eb;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+        }
+
+        .nav-item.active .nav-label {
+            color: #ffffff;
+        }
+
+        /* Inactive state — серый фон, чёрный текст */
+        .nav-item:not(.active) .nav-label {
+            color: #1a1a1a;
+        }
+
+        /* Hover / tap effect */
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Rainbow border on interaction */
+        .nav-item.interacting {
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(192,192,192,0.95), rgba(192,192,192,0.95)),
+                              linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        .nav-item.active.interacting {
+            background-image: linear-gradient(#2563eb, #2563eb),
+                              linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="bcblogotext.PNG" alt="Logo" class="header-logo">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+
+        <!-- Tab: Играть -->
+        <div class="tab-content active" id="tab-play">
+            <h2>🎮 Играть</h2>
+            <p>Добро пожаловать в игру!</p>
+        </div>
+
+        <!-- Tab: Профиль -->
+        <div class="tab-content" id="tab-profile">
+            <h2>👤 Профиль</h2>
+            <p>Здесь будет ваш профиль</p>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+
+        <!-- Играть -->
+        <div class="nav-item active" data-tab="play" id="nav-play">
+            <div class="nav-icon">
+                <img src="icon_chip_blue.png" alt="Играть" class="icon-chip">
+            </div>
+            <span class="nav-label">Играть</span>
+        </div>
+
+        <!-- Профиль -->
+        <div class="nav-item" data-tab="profile" id="nav-profile">
+            <div class="nav-icon">
+                <img src="icon_profile_black.png" alt="Профиль" class="icon-profile">
+            </div>
+            <span class="nav-label">Профиль</span>
+        </div>
+
+    </div>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Icon sources
+        const icons = {
+            play:    { active: 'icon_chip_blue.png',   inactive: 'icon_chip_black.png'   },
+            profile: { active: 'icon_profile_blue.png', inactive: 'icon_profile_black.png' }
+        };
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const tabName = item.getAttribute('data-tab');
+
+                // Сброс всех активных
+                navItems.forEach(n => {
+                    n.classList.remove('active');
+                    const tab = n.getAttribute('data-tab');
+                    n.querySelector('img').src = icons[tab].inactive;
+                });
+                tabContents.forEach(t => t.classList.remove('active'));
+
+                // Установка активной вкладки
+                item.classList.add('active');
+                item.querySelector('img').src = icons[tabName].active;
+                document.getElementById('tab-' + tabName).classList.add('active');
+
+                // Haptic feedback
+                if (tg?.HapticFeedback) {
+                    tg.HapticFeedback.selectionChanged();
+                }
+            });
+
+            // Rainbow border on touch
+            item.addEventListener('touchstart', () => item.classList.add('interacting'));
+            item.addEventListener('touchend',   () => setTimeout(() => item.classList.remove('interacting'), 300));
+            item.addEventListener('mousedown',  () => item.classList.add('interacting'));
+            item.addEventListener('mouseup',    () => setTimeout(() => item.classList.remove('interacting'), 300));
+        });
+    </script>
+
+</body>
+</html>
